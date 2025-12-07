@@ -31,7 +31,19 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Educational Clarity**: All documentation and code examples MUST prioritize educational clarity for students with varying backgrounds.
+- **Technical Accuracy**: All code examples and configurations MUST be technically accurate and verifiable.
+- **AI-Native Design**: Design MUST integrate AI capabilities, specifically a RAG chatbot, to enhance learning.
+- **Modular and Maintainable Architecture**: The architecture MUST be modular, loosely coupled, and maintainable.
+- **Code Quality**: Adherence to Python 3.10+, TypeScript, type hints, Google-style docstrings, Black/Prettier formatting, strict linting, max 50 lines per function, and max 500 lines per file is MANDATORY.
+- **Documentation**: Each chapter MUST include learning objectives, prerequisites, exercises, and commented code examples. Step-by-step installation with verification commands and README files for root, backend, frontend, docs are REQUIRED.
+- **Architecture**: Frontend MUST use Docusaurus v3.x + React components; Backend MUST use FastAPI (async/await); Database MUST be Neon Serverless Postgres; Vector Store MUST be Qdrant Cloud (free tier); Deployment MUST target GitHub Pages + Railway/Render.
+- **Security**: API keys MUST only be in environment variables (.env never committed). Input validation on all endpoints, parameterized queries, JWT with 24h expiry, and rate limiting (100 requests/min per user) are REQUIRED.
+- **Testing**: 70% backend unit test coverage (pytest), integration tests for RAG pipeline, and CI/CD via GitHub Actions are REQUIRED.
+- **Version Control**: Feature branches, PRs, Conventional Commits (feat:, fix:, docs:), and no direct commits to main are MANDATORY.
+- **Performance**: Page load MUST be <3s on 4G; Chatbot response MUST be <5s; Lazy loading for images/heavy components is REQUIRED.
+- **Content Standards**: Structure MUST be Intro → Theory → Example → Exercises → Summary. Copy-paste executable code with setup instructions, balance of 60% code and 40% explanation, and clear hardware requirements per module are REQUIRED.
+- **RAG Chatbot**: Embeddings MUST use OpenAI text-embedding-3-small. Chunk size: 500-1000 tokens with 100-token overlap. Top-5 retrieval, confidence threshold: 0.6. Support for selected text queries and inclusion of chapter references in responses are REQUIRED.
 
 ## Project Structure
 
