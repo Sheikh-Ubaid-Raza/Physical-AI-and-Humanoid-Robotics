@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite_name=globalThis.webpackChunkwebsite_name||[]).push([[1903],{1912:a=>{a.exports=JSON.parse('{"blogBasePath":"/Physical-AI-and-Humanoid-Robotics/blog","blogTitle":"Blog","authorsListPath":"/Physical-AI-and-Humanoid-Robotics/blog/authors"}')}}]);
