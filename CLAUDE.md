@@ -208,3 +208,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- Python 3.10+ for backend, TypeScript/JavaScript for frontend + OpenAI Agent SDK, Qdrant, Neon Postgres, FastAPI, Docusaurus v3.x, React (001-rag-chatbot)
+- Neon Postgres for chat history, Qdrant vector database for content embeddings (001-rag-chatbot)
+
+## Recent Changes
+- 001-rag-chatbot: Added Python 3.10+ for backend, TypeScript/JavaScript for frontend + OpenAI Agent SDK, Qdrant, Neon Postgres, FastAPI, Docusaurus v3.x, React

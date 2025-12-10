@@ -1,0 +1,14 @@
+# Railway configuration file
+[build]
+builder = "NIXPACKS"
+
+[build.args]
+PYTHON_VERSION = "3.10"
+
+[deploy]
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
+numReplicas = 1
+sleepApplication = false
+
+[variables]
+PORT = 8000

@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Text Selection API
+  description: API for handling selected text queries in the RAG Chatbot system
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+paths:
+  /chat/selection:
+    post:
+      summary: Process selected text query
+      description: Takes selected text and processes it as a query to the AI, with priority context
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+                - session_id
+                - selected_text
+              properties:
+                message:
+                  type: string
+                  description: The question or query based on selected text
+                  example: "Explain NVIDIA Jetson Orin Nano specifications"
+                session_id:
+                  type: string
+                  description: Unique session identifier
+                  example: "sess_1234567890"
+                selected_text:
+                  type: string
+                  description: The text that was selected by the user
+                  example: "NVIDIA Jetson Orin Nano is a powerful edge AI computer designed for robotics and autonomous machines."
+                conversation_context:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        enum: [user, assistant]
+                      content:
+                        type: string
+                  description: Previous conversation context (optional)
+                  example: [{"role": "user", "content": "What is edge computing?"}, {"role": "assistant", "content": "Edge computing..."}]
+      responses:
+        '200':
+          description: AI response to the selected text query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: "The NVIDIA Jetson Orin Nano is designed for edge AI applications..."
+                  sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        module:
+                          type: string
+                          example: "Week 3"
+                        week:
+                          type: string
+                          example: "3"
+                        chapter_title:
+                          type: string
+                          example: "Hardware Platforms"
+                        url:
+                          type: string
+                          example: "/docs/week-03/hardware-platforms"
+                  conversation_id:
+                    type: string
+                    example: "conv_1234567890"
+                  message_id:
+                    type: string
+                    example: "msg_0987654321"
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+      security:
+        - BearerAuth: []  # Optional authentication
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

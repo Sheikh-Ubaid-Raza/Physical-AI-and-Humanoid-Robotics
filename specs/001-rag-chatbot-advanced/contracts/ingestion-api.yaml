@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: Content Ingestion API
+  description: API for ingesting textbook content into the vector database
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+paths:
+  /ingest:
+    post:
+      summary: Ingest content into vector database
+      description: Processes and stores textbook content in the vector database for RAG retrieval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+                - module
+                - week
+                - chapter_title
+                - url
+              properties:
+                content:
+                  type: string
+                  description: The textbook content to be ingested
+                  example: "Hardware platforms for robotics include various components..."
+                module:
+                  type: string
+                  description: Which module/chapter the content belongs to
+                  example: "Week 3"
+                week:
+                  type: string
+                  description: Which week of the curriculum
+                  example: "3"
+                chapter_title:
+                  type: string
+                  description: Title of the specific chapter
+                  example: "Hardware Platforms"
+                url:
+                  type: string
+                  description: URL where the content can be found in the textbook
+                  example: "/docs/week-03/hardware-platforms"
+      responses:
+        '200':
+          description: Content successfully ingested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Content ingested successfully"
+                  chunk_count:
+                    type: integer
+                    example: 5
+                  processing_time:
+                    type: number
+                    example: 2.34
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
+      security:
+        - BearerAuth: []  # Optional authentication for admin access
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

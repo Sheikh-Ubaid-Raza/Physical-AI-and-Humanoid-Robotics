@@ -41,7 +41,7 @@ function HomepageHeader() {
                   <svg viewBox="0 0 300 300" className={clsx(styles.robotSvg, styles.animateFloat)}>
                     <defs>
                       <linearGradient id="robotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#667eea" />
+                        <stop offset="0%" stopColor="#9dadf6ff" />
                         <stop offset="100%" stopColor="#764ba2" />
                       </linearGradient>
                       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">

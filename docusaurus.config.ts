@@ -74,6 +74,12 @@ const config: Config = {
     ],
   ],
 
+  // Add environment variables to be available in the browser
+  // This allows the frontend to access API_BASE_URL
+  clientModules: [
+    require.resolve('./src/client/env.js'), // Create this file to define client-side environment variables
+  ],
+
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',

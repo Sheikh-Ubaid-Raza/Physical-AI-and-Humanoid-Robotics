@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Content Translation API
+  description: API for translating textbook content to Urdu based on user preferences
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+paths:
+  /translate:
+    post:
+      summary: Translate chapter content to Urdu
+      description: Converts chapter content to Urdu while preserving technical terms and code blocks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - chapter_id
+                - chapter_content
+              properties:
+                chapter_id:
+                  type: string
+                  description: Unique identifier for the chapter
+                  example: "week-03-hardware-platforms"
+                chapter_content:
+                  type: string
+                  description: Original chapter content to be translated
+                  example: "Hardware platforms for robotics include..."
+                target_language:
+                  type: string
+                  enum: [ur]
+                  description: Target language for translation (currently only Urdu supported)
+                  example: "ur"
+                  default: "ur"
+      responses:
+        '200':
+          description: Translated content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  translated_content:
+                  type: string
+                  example: "روبوٹکس کے لیے ہارڈ ویئر پلیٹ فارمز میں (ابتدائی صارفین کے لیے مزید وضاحت کے ساتھ)..."
+                original_language:
+                  type: string
+                  example: "en"
+                target_language:
+                  type: string
+                  enum: [ur]
+                  example: "ur"
+                processing_time:
+                  type: number
+                  example: 1.45
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized - authentication required
+        '500':
+          description: Internal server error
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

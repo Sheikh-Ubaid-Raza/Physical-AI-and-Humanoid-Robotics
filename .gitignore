@@ -8,6 +8,36 @@
 .docusaurus
 .cache-loader
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+.ENV/
+
 # Environment variables
 .env
 .env.local
@@ -18,9 +48,38 @@
 # MCP configuration
 .mcp.json
 
-# Misc
-.DS_Store
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Backend specific
+backend/__pycache__/
+backend/*.py[cod]
+backend/venv/
+backend/env/
+
+# Docusaurus
+.docusaurus/
+.build/
+docs/.docusaurus/
+
+# Coverage
+coverage/
+.coverage
+htmlcov/
+
+# Misc
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

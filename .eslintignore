@@ -1,0 +1,9 @@
+node_modules/
+build/
+dist/
+*.min.js
+coverage/
+.next/
+.nuxt/
+public/
+docs/build/

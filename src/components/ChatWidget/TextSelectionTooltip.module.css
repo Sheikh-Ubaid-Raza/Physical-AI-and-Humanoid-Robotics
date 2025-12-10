@@ -1,0 +1,47 @@
+.text-selection-tooltip {
+  position: absolute;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  min-width: 120px;
+  max-width: 300px;
+}
+
+.tooltip-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.tooltip-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.tooltip-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.tooltip-response {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.response-content {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #374151;
+}

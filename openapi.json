@@ -1,0 +1,956 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "RAG Chatbot API for Physical AI & Humanoid Robotics Textbook",
+    "description": "API for the RAG chatbot that answers questions about Physical AI and Humanoid Robotics curriculum",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Health Check",
+        "description": "Health check for the ingestion service",
+        "operationId": "health_check_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/full": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Full Health Check",
+        "description": "Full health check that tests all services",
+        "operationId": "full_health_check_api_v1_health_full_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Chat Endpoint",
+        "description": "Process a chat message and return a response using RAG",
+        "operationId": "chat_endpoint_api_v1_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/selection": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Selected Text Endpoint",
+        "description": "Process selected text as a high-priority query to the AI with priority context.",
+        "operationId": "selected_text_endpoint_api_v1_chat_selection_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectedTextRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectedTextResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/personalize": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Personalize Content",
+        "description": "Adjust chapter content based on the user's background level.",
+        "operationId": "personalize_content_api_v1_personalize_post",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalizeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalizeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Translate Content",
+        "description": "Translate chapter content to the specified language.",
+        "operationId": "translate_content_api_v1_translate_post",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingest": {
+      "post": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Ingest Content",
+        "description": "Ingest a single content chunk into the vector database",
+        "operationId": "ingest_content_api_v1_ingest_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingest-batch": {
+      "post": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Ingest Batch Content",
+        "description": "Ingest multiple content chunks in a batch",
+        "operationId": "ingest_batch_content_api_v1_ingest_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestBatchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestBatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingest-directory": {
+      "post": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Ingest Directory Content",
+        "description": "Ingest all content from a directory",
+        "operationId": "ingest_directory_content_api_v1_ingest_directory_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestDirectoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/initialize-db": {
+      "post": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Initialize Database",
+        "description": "Initialize the Qdrant collection for the textbook content",
+        "operationId": "initialize_database_api_v1_initialize_db_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingestion-stats": {
+      "get": {
+        "tags": [
+          "ingest",
+          "ingestion"
+        ],
+        "summary": "Get Ingestion Stats",
+        "description": "Get statistics about the ingestion process",
+        "operationId": "get_ingestion_stats_api_v1_ingestion_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Read Root",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model",
+            "default": "gpt-4o"
+          },
+          "conversation_context": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "session_id"
+        ],
+        "title": "ChatRequest"
+      },
+      "ChatResponse": {
+        "properties": {
+          "response": {
+            "type": "string",
+            "title": "Response"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "conversation_id": {
+            "type": "string",
+            "title": "Conversation Id"
+          },
+          "message_id": {
+            "type": "string",
+            "title": "Message Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "response",
+          "sources",
+          "conversation_id",
+          "message_id"
+        ],
+        "title": "ChatResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "timestamp"
+        ],
+        "title": "HealthResponse"
+      },
+      "IngestBatchRequest": {
+        "properties": {
+          "chunks": {
+            "items": {
+              "$ref": "#/components/schemas/IngestRequest"
+            },
+            "type": "array",
+            "title": "Chunks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chunks"
+        ],
+        "title": "IngestBatchRequest"
+      },
+      "IngestBatchResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "chunks_processed": {
+            "type": "integer",
+            "title": "Chunks Processed"
+          },
+          "success_count": {
+            "type": "integer",
+            "title": "Success Count"
+          },
+          "error_count": {
+            "type": "integer",
+            "title": "Error Count"
+          },
+          "results": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "chunks_processed",
+          "success_count",
+          "error_count",
+          "results"
+        ],
+        "title": "IngestBatchResponse"
+      },
+      "IngestDirectoryRequest": {
+        "properties": {
+          "directory_path": {
+            "type": "string",
+            "title": "Directory Path"
+          },
+          "recursive": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recursive",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "directory_path"
+        ],
+        "title": "IngestDirectoryRequest"
+      },
+      "IngestRequest": {
+        "properties": {
+          "module": {
+            "type": "string",
+            "title": "Module"
+          },
+          "week": {
+            "type": "string",
+            "title": "Week"
+          },
+          "chapter_title": {
+            "type": "string",
+            "title": "Chapter Title"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "file_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Path"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module",
+          "week",
+          "chapter_title",
+          "content",
+          "url"
+        ],
+        "title": "IngestRequest"
+      },
+      "IngestResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "chunk_id": {
+            "type": "string",
+            "title": "Chunk Id"
+          },
+          "token_count": {
+            "type": "integer",
+            "title": "Token Count"
+          },
+          "module": {
+            "type": "string",
+            "title": "Module"
+          },
+          "week": {
+            "type": "string",
+            "title": "Week"
+          },
+          "chapter_title": {
+            "type": "string",
+            "title": "Chapter Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "chunk_id",
+          "token_count",
+          "module",
+          "week",
+          "chapter_title"
+        ],
+        "title": "IngestResponse"
+      },
+      "PersonalizeRequest": {
+        "properties": {
+          "chapter_id": {
+            "type": "string",
+            "title": "Chapter Id"
+          },
+          "chapter_content": {
+            "type": "string",
+            "title": "Chapter Content"
+          },
+          "background_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Background Level"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chapter_id",
+          "chapter_content"
+        ],
+        "title": "PersonalizeRequest"
+      },
+      "PersonalizeResponse": {
+        "properties": {
+          "personalized_content": {
+            "type": "string",
+            "title": "Personalized Content"
+          },
+          "original_background": {
+            "type": "string",
+            "title": "Original Background"
+          },
+          "processing_time": {
+            "type": "number",
+            "title": "Processing Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "personalized_content",
+          "original_background",
+          "processing_time"
+        ],
+        "title": "PersonalizeResponse"
+      },
+      "SelectedTextRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "selected_text": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 1,
+            "title": "Selected Text"
+          },
+          "conversation_context": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conversation Context"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model",
+            "default": "gpt-4o"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "session_id",
+          "selected_text"
+        ],
+        "title": "SelectedTextRequest"
+      },
+      "SelectedTextResponse": {
+        "properties": {
+          "response": {
+            "type": "string",
+            "title": "Response"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "conversation_id": {
+            "type": "string",
+            "title": "Conversation Id"
+          },
+          "message_id": {
+            "type": "string",
+            "title": "Message Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "response",
+          "sources",
+          "conversation_id",
+          "message_id"
+        ],
+        "title": "SelectedTextResponse"
+      },
+      "Source": {
+        "properties": {
+          "module": {
+            "type": "string",
+            "title": "Module"
+          },
+          "week": {
+            "type": "string",
+            "title": "Week"
+          },
+          "chapter_title": {
+            "type": "string",
+            "title": "Chapter Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module",
+          "week",
+          "chapter_title",
+          "url"
+        ],
+        "title": "Source"
+      },
+      "TranslateRequest": {
+        "properties": {
+          "chapter_id": {
+            "type": "string",
+            "title": "Chapter Id"
+          },
+          "chapter_content": {
+            "type": "string",
+            "title": "Chapter Content"
+          },
+          "target_language": {
+            "type": "string",
+            "title": "Target Language",
+            "default": "ur"
+          }
+        },
+        "type": "object",
+        "required": [
+          "chapter_id",
+          "chapter_content"
+        ],
+        "title": "TranslateRequest"
+      },
+      "TranslateResponse": {
+        "properties": {
+          "translated_content": {
+            "type": "string",
+            "title": "Translated Content"
+          },
+          "original_language": {
+            "type": "string",
+            "title": "Original Language",
+            "default": "en"
+          },
+          "target_language": {
+            "type": "string",
+            "title": "Target Language"
+          },
+          "processing_time": {
+            "type": "number",
+            "title": "Processing Time"
+          },
+          "preserved_elements": {
+            "type": "object",
+            "title": "Preserved Elements",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "translated_content",
+          "target_language",
+          "processing_time"
+        ],
+        "title": "TranslateResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

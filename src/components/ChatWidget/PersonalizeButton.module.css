@@ -1,0 +1,85 @@
+.personalize-content-container {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+}
+
+.personalize-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.personalize-button, .toggle-button, .background-selector-toggle, .reset-button {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.personalize-button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.personalize-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.personalize-button:disabled, .personalize-button.processing {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.toggle-button:hover, .background-selector-toggle:hover, .reset-button:hover {
+  background-color: #f3f4f6;
+}
+
+.background-selector-popup {
+  position: absolute;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.background-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.background-option:hover {
+  background-color: #f3f4f6;
+}
+
+.background-option:last-child {
+  border-bottom: none;
+}
+
+.personalization-info {
+  font-size: 14px;
+  color: #4b5563;
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .personalize-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .personalize-button, .toggle-button, .background-selector-toggle, .reset-button {
+    width: 100%;
+  }
+}
